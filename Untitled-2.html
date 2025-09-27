@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login Mahasiswa</title>
+
+  <!-- Google Font (opsional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent: #2b6cb0; /* warna aksen */
+      --glass: rgba(255,255,255,0.12);
+      --glass-2: rgba(255,255,255,0.06);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.85);
+      --card-bg: rgba(255,255,255,0.06);
+      --radius: 14px;
+      --max-width: 420px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      background: #000;
+      line-height:1.3;
+    }
+
+    /* Background full-screen image + gradient overlay */
+    .bg {
+      position: fixed;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=2050&q=80');
+      background-size: cover;
+      background-position: center;
+      z-index: -2;
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      /* subtle dark gradient to improve contrast */
+      background: linear-gradient(180deg, rgba(5,10,20,0.25), rgba(2,6,12,0.55));
+      z-index: -1;
+    }
+
+    /* center container */
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px 20px;
+    }
+
+    .card{
+      width:100%;
+      max-width:var(--max-width);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      backdrop-filter: blur(6px) saturate(1.1);
+      border-radius:var(--radius);
+      box-shadow: 0 8px 30px rgba(2,6,12,0.6);
+      padding:28px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:18px;
+    }
+    .logo{
+      width:54px;
+      height:54px;
+      border-radius:10px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:var(--text);
+      font-size:18px;
+      box-shadow: inset 0 -6px 14px rgba(0,0,0,0.25);
+    }
+    .brand h1{
+      font-size:18px;
+      margin:0;
+      letter-spacing:0.2px;
+    }
+    .brand p{margin:0;font-size:12px;opacity:0.9;color:var(--muted)}
+
+    form{margin-top:6px}
+    label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+    .input{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:var(--card-bg);
+      border-radius:10px;
+      padding:12px;
+      margin-bottom:14px;
+      border:1px solid rgba(255,255,255,0.04);
+    }
+    .input input{
+      background:transparent;
+      border:0;
+      outline:0;
+      color:var(--text);
+      font-size:15px;
+      width:100%;
+    }
+
+    .row{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:12px;
+      font-size:14px;
+    }
+    .remember{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .btn{
+      width:100%;
+      padding:12px 14px;
+      border-radius:10px;
+      border:0;
+      font-size:15px;
+      font-weight:600;
+      cursor:pointer;
+      background: linear-gradient(90deg,var(--accent), #3b82c4);
+      color:white;
+      box-shadow: 0 6px 18px rgba(43,108,176,0.22);
+    }
+    .btn:active{transform:translateY(1px)}
+    .secondary{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--muted);
+      padding:10px 12px;
+      border-radius:10px;
+      display:inline-block;
+      text-align:center;
+      width:100%;
+      margin-top:10px;
+    }
+
+    .help{
+      margin-top:12px;
+      font-size:13px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    /* small helper text for errors */
+    .error{
+      color:#ffd1d1;
+      font-size:13px;
+      margin-top:-6px;
+      margin-bottom:10px;
+    }
+
+    /* responsive adjustments */
+    @media (max-width:420px){
+      .card{padding:20px;border-radius:12px}
+      .logo{width:46px;height:46px}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <main class="wrap" role="main">
+    <section class="card" aria-labelledby="loginTitle">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">UN</div>
+        <div>
+          <h1 id="loginTitle">KELOMPOK 1 XF</h1>
+          <p>Login untuk mengakses informasi akademik dan layanan kampus</p>
+        </div>
+      </div>
+
+      <form id="loginForm" autocomplete="on" novalidate>
+        <!-- NPM / Student ID -->
+        <label for="npm">NPM / Nomor Mahasiswa</label>
+        <div class="input">
+          <input id="npm" name="npm" inputmode="numeric" pattern="[0-9]*" placeholder="2023xxxxxxxx" aria-label="NPM" required>
+        </div>
+
+        <!-- Nama -->
+        <label for="nama">Nama Lengkap</label>
+        <div class="input">
+          <input id="nama" name="nama" placeholder="Nama mahasiswa" aria-label="Nama lengkap" required>
+        </div>
+
+        <!-- Password with show toggle -->
+        <label for="password">Kata Sandi</label>
+        <div class="input" style="justify-content:space-between;">
+          <input id="password" name="password" type="password" placeholder="Kata sandi" aria-label="Kata sandi" required>
+          <button type="button" id="toggle" aria-pressed="false" title="Tampilkan kata sandi" style="background:none;border:0;color:var(--muted);cursor:pointer;font-size:13px;padding:0 6px;">Tampil</button>
+        </div>
+
+        <div class="row" style="margin-top:6px;">
+          <label class="remember"><input id="remember" type="checkbox" aria-label="Ingat saya"> Ingat saya</label>
+          <a href="#" style="color:var(--muted);text-decoration:none;font-size:13px;">Lupa kata sandi?</a>
+        </div>
+
+        <div id="err" class="error" role="status" aria-live="polite" style="display:none"></div>
+
+        <button type="submit" class="btn">Masuk</button>
+
+        <button type="button" class="secondary" id="demoBtn" title="Contoh login">Login Demo (tanpa server)</button>
+
+        <div class="help">
+          Belum punya akun? Hubungi <strong>Admin Akademik</strong> untuk pembuatan akun.
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // Simple client-side validation and demo behavior
+    (function(){
+      const form = document.getElementById('loginForm');
+      const npmInput = document.getElementById('npm');
+      const namaInput = document.getElementById('nama');
+      const passInput = document.getElementById('password');
+      const err = document.getElementById('err');
+      const toggle = document.getElementById('toggle');
+      const demoBtn = document.getElementById('demoBtn');
+
+      toggle.addEventListener('click', () => {
+        const isHidden = passInput.type === 'password';
+        passInput.type = isHidden ? 'text' : 'password';
+        toggle.textContent = isHidden ? 'Sembunyi' : 'Tampil';
+        toggle.setAttribute('aria-pressed', String(isHidden));
+      });
+
+      function showError(msg){
+        err.style.display = 'block';
+        err.textContent = msg;
+      }
+      function clearError(){
+        err.style.display = 'none';
+        err.textContent = '';
+      }
+
+      // Demo login credentials (only client-side demo)
+      const demoCred = {
+        npm: '202343500785',
+        nama: 'Safiq Asmawi Zein',
+        password: 'mahasiswa123'
+      };
+
+      demoBtn.addEventListener('click', () => {
+        npmInput.value = demoCred.npm;
+        namaInput.value = demoCred.nama;
+        passInput.value = demoCred.password;
+        clearError();
+      });
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        clearError();
+
+        const npmVal = npmInput.value.trim();
+        const namaVal = namaInput.value.trim();
+        const passVal = passInput.value;
+
+        // Basic checks
+        if(!npmVal){
+          showError('Mohon masukkan NPM Anda.');
+          npmInput.focus();
+          return;
+        }
+        if(npmVal.length < 8){
+          showError('NPM terlihat pendek — pastikan lengkap.');
+          npmInput.focus();
+          return;
+        }
+        if(!namaVal){
+          showError('Mohon masukkan nama lengkap Anda.');
+          namaInput.focus();
+          return;
+        }
+        if(!passVal || passVal.length < 6){
+          showError('Kata sandi minimal 6 karakter.');
+          passInput.focus();
+          return;
+        }
+
+        // === Simulasi login: di aplikasi nyata, kirim ke server via fetch/ajax ===
+        // Demonstrasi: cek apakah cocok dengan demoCred
+        if(npmVal === demoCred.npm && namaVal.toLowerCase() === demoCred.nama.toLowerCase() && passVal === demoCred.password){
+          // sukses — redirect contoh
+          alert('Login berhasil (demo). Anda akan diarahkan ke dashboard.');
+          window.location.href = '#dashboard'; // ganti dengan URL nyata
+          return;
+        } else {
+          // jika implementasi nyata, panggil API dan tangani responsnya
+          showError('NPM / Nama / Kata sandi tidak cocok (demo). Untuk implementasi nyata, hubungkan form ini ke endpoint autentikasi server.');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
